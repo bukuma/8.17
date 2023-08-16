@@ -1,0 +1,24 @@
+// Fonts
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+//@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+@import "setting/general";
+//　以下を追記
+@import "hamburger-menu";
+
+// 以下を追記します。
+@import "device";
+// 以下を追記
+@import "posts";
+// この行を追加
+@import "comments";
+
+@import "thread-new";
+@import "thread-edit";
+
+//　課題２－９・３
+@import "topics";

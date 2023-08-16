@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  rails:
+    container_name: rails-app
+    build:
+      context: .
+      dockerfile: .docker/local/ruby/Dockerfile
+    tty: true
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "8080:3000"
+    working_dir: /src
+    volumes:
+      - ./:/src
+    environment:
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      DB_HOST: mysql
+      DB_PORT: 3306
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: rails-mysql
+    build: .docker/local/mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./storage/mysql:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: rails
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password

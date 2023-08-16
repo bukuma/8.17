@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <!-- title -->
+    <title>SNS App</title>
+     <!-- ウェブページがモバイルデバイスやレスポンシブデザインをサポートするブラウザ上でどのように表示されるべきかを制御します。 -->
+     <meta name-"viewport" content="width=device-width,initial-scale-1">
+     <!-- CSRF Token 後の章で説明します -->
+     <%= csrf_meta_tags %>
+     <!-- Railsの機能を使用してアプリケーションのセキュリティを向上させるための記述です -->
+     <%= csp_meta_tag %>
+     <!-- Style追加 -->
+     <link rel="stylesheet" href="<%= mix('/css/app.css') %>">
+     <!-- Javascript -->
+     <script src="<%= mix('/js/bootstrap.js') %>"></script>
+     <!-- turbo.jsを追加します -->
+     <script src="<%= mix('/js/turbo.js') %>"></script>
+  </head>
+  
+  <body>
+    <div class="main-container">
+      <!--  ナビゲーションバー -->
+      <nav class="custom-navbar">
+        <div id="menuToggle">
+          <input type="checkbox" />
+          <span></span>
+          <span></span>
+          <span></span>
+          <ul id="menu">
+            <!-- ここから追加-->
+            <% if user_signed_in? %>
+            <!-- ログインしている場合に表示されます -->
+            <!-- user_signed_in? は device が提供している認証済みかを判定するメソッドです -->
+            <li>
+              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
+            </li>
+            <li>
+              <%= link_to "投稿一覧", "/", class: "nav-link" %>
+            </li>
+            <li>
+              <%= link_to "新規投稿", new_post_path, class: "nav-link" %>
+            </li>
+          <% else %>
+            <!-- ログインしていない場合に表示されます -->
+            <!-- else 以降は前述のif文の否定になります -->
+            <li>
+              <%= link_to "新規登録", new_user_registration_path, class: "nav-link" %>
+            </li>
+            <li>
+              <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
+            </li>
+          <% end %>
+          <!-- ここまで-->
+          </ul>
+        </div>
+      </nav>
+      
+      <!-- アラートメッセージ -->
+      <% if notice %>
+        <div class="alert alert-success" role="alert">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger" role="alert">
+          <%= alert %>
+        </div>
+      <% end %>
+      
+      <div class="bg-white text-dark">
+        <%= yield %>
+      </div>
+    </div>
+      
+    <!-- Javascript -->
+    <script src="<%= mix('/js/app.js') %>"></script>
+  </body>
+</html>   
+  
+  

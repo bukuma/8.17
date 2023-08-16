@@ -1,0 +1,50 @@
+<div class="search-container">
+  <%= form_with url: index_post_path, class: "form", method: :get, local: true do |form| %>
+    <!--
+        ここでは検索フォームを作成しています。form_withはRailsでフォームを作成するためのメソッドです。
+        url: index_post_pathは、このフォームが送信されたときにリクエストを送る先のURLを指定しています。
+        method: :getは、リクエストの種類をGETに指定しています（GETはデータを取得するためのリクエスト）。
+        local: trueは、フォーム送信をAjaxではなく、通常のHTMLの形式で行うことを意味します。
+      -->
+    <input class="input" type="text" name="title" placeholder="タイトルで検索" value="<%= params[:title] %>">
+    <!--
+      ここではテキスト入力フィールドを使用しています。
+      nameではtitleという属性で検索時のリクエストを送信しています。
+    -->
+    <%= form.submit "検索", class: "button" %>
+    <!--
+      ここでは、検索ボタンを作成しています。
+      "検索"はボタンに表示されるテキストです。
+      class: "button" は、ボタンに対してCSSクラスを指定します。
+    -->
+  <% end %>
+</div>
+
+<div class="post-list">
+  <% @posts.each do |post| %>
+  <!--
+    ここでは、@postsという配列の中の各投稿に対してループ処理を行っています。
+    この@postsは、コントローラのindexメソッドで取得した投稿のリストです。
+  -->
+  
+    <!-- 以下の行をdivタグからaタグに変更する -->
+    <!-- 以下の行の edit_post_path を new_comment_path に変更します -->
+    <a class="post" href="<%= new_comment_path(post) %>">
+      <div class="header">
+      <!--
+        これらは、各投稿のタイトル、本文を表示しています。
+        それぞれの投稿（post）にはid、title、bodyといったプロパティがあり、これらを表示しています。
+      -->
+        <h2 class="title"><%= post.title %></h2>
+        <p class="timestamp"><%= post.created_at.strftime("%B %d, %Y") %></p>
+      </div>
+      <div class="body">
+        <p class="content"><%= post.body %></p>
+      </div>
+      <div class="image">
+        <%= image_tag(post.image) if post.image.attached? %>
+      </div>
+    <!-- 以下の行をdivタグからaタグに変更する -->
+    </a>
+  <% end %>
+</div>

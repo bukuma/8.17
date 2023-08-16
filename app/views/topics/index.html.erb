@@ -1,0 +1,47 @@
+ <!--課題２－１１-->
+<div class="search-container">
+  <%= form_with url: index_topic_path, class: "form", method: :get, local: true do |form| %>
+    <!--
+        ここでは検索フォームを作成しています。form_withはRailsでフォームを作成するためのメソッドです。
+        url: index_topic_pathは、このフォームが送信されたときにリクエストを送る先のURLを指定しています。
+        method: :getは、リクエストの種類をGETに指定しています（GETはデータを取得するためのリクエスト）。
+        local: trueは、フォーム送信をAjaxではなく、通常のHTMLの形式で行うことを意味します。
+      -->
+    <input class="input" type="text" name="title" placeholder="タイトルで検索" value="<%= params[:title] %>">
+    <!--
+      ここではテキスト入力フィールドを使用しています。
+      nameではtitleという属性で検索時のリクエストを送信しています。
+    -->
+    <%= form.submit "検索", class: "button" %>
+    <!--
+      ここでは、検索ボタンを作成しています。
+      "検索"はボタンに表示されるテキストです。
+      class: "button" は、ボタンに対してCSSクラスを指定します。
+    -->
+  <% end %>
+</div>
+
+<div class="topic-list">
+  <% @topics.each do |topic| %>
+  <!--
+    ここでは、@topicsという配列の中の各投稿に対してループ処理を行っています。
+    この@topicsは、コントローラのindexメソッドで取得した投稿のリストです。
+  -->
+    <!-- 以下の行をdivタグからaタグに変更する -->
+    <a class="topic" href="<%= edit_topic_path(topic) %>">
+      <div class="header">
+      <!--
+        これらは、各投稿のタイトル、本文を表示しています。
+        それぞれの投稿（topic）にはid、title、bodyといったプロパティがあり、これらを表示しています。
+      -->
+        <h2 class="title"><%= topic.title %></h2>
+        <p class="timestamp"><%= topic.created_at.strftime("%B %d, %Y") %></p>
+      </div>
+      
+      <div class="body">
+        <p class="content"><%= topic.body %></p>
+      </div>
+      
+    </a>
+  <% end %>
+</div>
